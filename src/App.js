@@ -10,6 +10,7 @@ export default function App(props) {
   const [rateTo, setRateTo] = useState(0);
   const [earnPersent, setEarnPersent] = useState(0);
   const [price, setPrice] = useState(0);
+  const [currency, setCurrency] = useState('BTC'); 
   useEffect(() => {
     if (priceIn && rateFrom && rateTo) {
       setEarnPersent(100 - (100 * rateFrom) / rateTo);
@@ -22,11 +23,11 @@ export default function App(props) {
     }
   }, [priceIn, rateFrom, rateTo, earnPersent]);
 
-  function getBTC() {
-    if (rateTo) return;
+ 
+  function getCoin() {
     var config = {
       method: "get",
-      url: "https://rest.coinapi.io/v1/assets/BTC",
+      url: "https://rest.coinapi.io/v1/assets/" + currency,
       headers: {
         "X-CoinAPI-Key": "00048985-6CB7-4DBF-AA7A-E4DF4A4CBD67"
       }
@@ -41,16 +42,22 @@ export default function App(props) {
         console.log(error);
       });
   }
+  function formatNumber(num){
+    return Math.round((num + Number.EPSILON) * 100) / 100
+  }
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      getBTC();
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [rateTo]);
   return (
     <div className="App" style={{ float: "left", textAlign: "left" }}>
+      <span>Currency</span>
+      <input
+        placeholder="BTC"
+        n onChange={(e) => {
+          setCurrency(e.target.value);
+        }}
+        value={currency}
+      />
+      <button onClick={getCoin}>Change</button>
+      <br />
       <span>Push</span>
       <input
         placeholder="Price IN"
@@ -78,13 +85,13 @@ export default function App(props) {
         value={rateTo}
       />
       <br />
-      <span>Earn %:</span> <b style={{ color: color }}>{earnPersent} %</b>
+      <span>Earn %:</span> <b style={{ color: color }}>{formatNumber(earnPersent)} %</b>
       <br />
       <span>You earn: </span>
-      <b style={{ color: color }}>{price} $</b>
+      <b style={{ color: color }}>{formatNumber(price)} $</b>
       <br />
       <span>Total: </span>
-      <b style={{ color: color }}>{price + parseInt(priceIn)} $</b>
+      <b style={{ color: color }}>{formatNumber(price + parseInt(priceIn))} $</b>
     </div>
   );
 }
