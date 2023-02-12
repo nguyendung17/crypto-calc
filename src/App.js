@@ -3,21 +3,21 @@ import "./styles.css";
 import axios from "axios";
 
 export default function App(props) {
-  const [priceIn, setPriceIn] = useState(35.9);
-  const [rateFrom, setRateFrom] = useState(15.9);
+  const [priceIn, setPriceIn] = useState(10);
+  const [rateFrom, setRateFrom] = useState(5);
 
   const [color, setColor] = useState("black");
-  const [rateTo, setRateTo] = useState(0);
+  const [rateTo, setRateTo] = useState(10);
   const [earnPersent, setEarnPersent] = useState(0);
   const [price, setPrice] = useState(0);
   const [currency, setCurrency] = useState('BTC'); 
   useEffect(() => {
     if (priceIn && rateFrom && rateTo) {
-      setEarnPersent(100 * rateTo / rateFrom);
-      setPrice(priceIn*(rateTo-rateFrom)+priceIn);
+      setEarnPersent(((rateTo-rateFrom )* 100) / rateFrom);
+      setPrice(priceIn*(rateTo-rateFrom));
       console.log("Price", earnPersent, rateTo, price);
 
-      setColor(priceIn > price ? "green" : "red");
+      setColor(earnPersent > 0 ? "green" : "red");
     } else {
       setPrice(0);
     }
@@ -48,7 +48,8 @@ export default function App(props) {
 
   return (
     <div className="App" style={{ float: "left", textAlign: "left" }}>
-      <span>Currency</span>
+      <form>
+      {/* <span>Currency</span>
       <input
         placeholder="BTC"
         n onChange={(e) => {
@@ -57,7 +58,7 @@ export default function App(props) {
         value={currency}
       />
       <button onClick={getCoin}>Change</button>
-      <br />
+      <br /> */}
       <span>Push</span>
       <input
         placeholder="Price IN"
@@ -92,6 +93,7 @@ export default function App(props) {
       <br />
       <span>Total: </span>
       <b style={{ color: color }}>{formatNumber(price + parseInt(priceIn))} $</b>
+      </form>
     </div>
   );
 }
