@@ -13,7 +13,7 @@ export default function App(props) {
   const [currency, setCurrency] = useState('BTC'); 
   useEffect(() => {
     if (priceIn && rateFrom && rateTo) {
-      setEarnPersent(100 - (100 * rateFrom) / rateTo);
+      setEarnPersent(100 * rateTo / rateFrom);
       setPrice(earnPersent * 0.01 * priceIn);
       console.log("Price", earnPersent, rateTo, price);
 
