@@ -14,7 +14,7 @@ export default function App(props) {
   useEffect(() => {
     if (priceIn && rateFrom && rateTo) {
       setEarnPersent(((rateTo-rateFrom )* 100) / rateFrom);
-      setPrice(priceIn*(rateTo-rateFrom));
+      setPrice(priceIn*earnPersent/100);
       console.log("Price", earnPersent, rateTo, price);
 
       setColor(earnPersent > 0 ? "green" : "red");
