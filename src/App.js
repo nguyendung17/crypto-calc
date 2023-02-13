@@ -1,7 +1,6 @@
 import React, { useEffect,useRef, useState } from "react";
 import "./styles.css";
 import axios from "axios";
-import useIsFirstRender from './usehooks'
 
 // import GoogleLogin from 'react-google-login';
 function parseURLParams(key) {
@@ -45,8 +44,6 @@ export default function App(props) {
   const [earnPersent, setEarnPersent] = useState(0);
   const [price, setPrice] = useState(0);
   const [currency, setCurrency] = useState('BTC');
-
-  const isFirst = useIsFirstRender()
 
 
   let savedPNLUrl = parseURLParams('data');
