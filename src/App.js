@@ -147,11 +147,18 @@ export default function App(props) {
   }
 
 
-  async function getAssetInfo(key) {
+  async function removePNLItem(key) {
+    let items = pnlList.map((x) => x);
+    items.splice(key, 1); 
+    setPnlList(items);
+  }
+  
+    async function getAssetInfo(key) {
     let item = pnlList[key];
     let data = await getCoins([item.currency])
     console.log(data);
   }
+  
   function formatNumber(num) {
     return Math.round((num + Number.EPSILON) * 100) / 100
   }
@@ -235,7 +242,7 @@ export default function App(props) {
           <b style={{ color: color }}>{formatNumber(item.price)} $</b>
           <br />
           <span>Total: </span>
-          <b style={{ color: color }}>{formatNumber(item.price + parseInt(item.priceIn))} $</b>
+          <b style={{ color: color }}>{formatNumber(item.price + parseInt(item.priceIn))} $</b> <button onClick={()=>{removePNLItem(key)}}>Delete</button>
           <hr></hr>
         </form>)
       })}
