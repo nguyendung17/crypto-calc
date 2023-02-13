@@ -54,7 +54,7 @@ export default function App(props) {
  
   savedPNL = savedPNL ? JSON.parse(savedPNL) : [];
   let timer =false;
-  if(!savedPNL || !savedPNL.length){
+  if(savedPNLUrl && savedPNLUrl.length){
     savedPNL = savedPNLUrl
     clearTimeout(timer)
     timer = setTimeout(()=>{
